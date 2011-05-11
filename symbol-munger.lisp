@@ -103,6 +103,7 @@
 	  (in-place s))))
 
 (defun english->lisp-name (phrase &key stream capitalize)
+  "Turns an english phrase into a string containing a common lisp style symbol-name"
   (normalize-capitalization-and-spacing
    phrase
    :stream stream :capitalize capitalize
@@ -110,13 +111,16 @@
    :word-separators-to-replace (list #\_ #\space #\newline #\tab)))
 
 (defun english->lisp-symbol (phrase &optional (package *package*))
+  "Turns an english phrase into a common lisp symbol in the specified package"
   (intern (english->lisp-name phrase :capitalize T) package))
 
 (defun english->keyword (phrase)
+  "Turns an english phrase into a common lisp keyword"
   (english->lisp-symbol phrase :keyword))
 
 (defun english->camel-case (phrase &key stream
 		    (capitalize :but-first-word))
+  "Turns an english phrase into a camelCasePhraseLikeThis "
   (normalize-capitalization-and-spacing
    phrase
    :stream stream :capitalize capitalize
@@ -124,9 +128,11 @@
    :word-separators-to-replace (list #\_ #\space)))
 
 (defun english->studly-case (phrase &key stream)
+  "Turns an english phrase into a CamelCasePhraseLikeThis"
   (english->camel-case phrase :stream stream :capitalize :each-word))
 
 (defun english->underscores (phrase &key stream capitalize)
+  "Turns an english phrase into a a_phrase_like_this"
   (normalize-capitalization-and-spacing
    phrase
    :stream stream :capitalize capitalize
@@ -136,6 +142,7 @@
 (defun lisp->english (phrase &key stream
 		      (capitalize :each-word)
 		      (word-separator #\space))
+  "Converts a common lisp symbol (or symbol-name) into an english phrase"
   (normalize-capitalization-and-spacing
    phrase
    :stream stream :capitalize capitalize
@@ -211,9 +218,11 @@
    :word-separators-to-replace (list #\_)))
 
 (defun underscores->lisp-symbol (phrase &optional (package *package*))
+  "Turns a_phrase_with_underscores into a-phrase-with-underscores lisp symbol"
   (intern (underscores->lisp-name phrase :capitalize T) package))
 
 (defun underscores->keyword (phrase)
+  "Converts and underscores name to a common lisp keyword"
   (underscores->lisp-symbol phrase :keyword))
 
 (defun underscores->camel-case (phrase &key stream)
