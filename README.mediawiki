@@ -32,7 +32,7 @@ Converts a common lisp symbol (or symbol-name) into an english phrase
 
 :a-symbol-like-this becomes "A Symbol Like This"
 
-=== english->lisp-symbol & english->lisp-keyword ===
+=== english->lisp-symbol & english->keyword ===
 
 Converts an english phrase into a common lisp symbol (the keyword 
 variant just specifies the keyword package)
