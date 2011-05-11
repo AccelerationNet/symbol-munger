@@ -12,7 +12,7 @@
   :licence "BSD"
   :version "0.1"
   :components ((:file "symbol-munger"))
-  :depends-on (:iter))
+  :depends-on (:iterate))
 
 (defsystem :symbol-munger-test
   :description "Functions to pluralize and singularize english languages words"
