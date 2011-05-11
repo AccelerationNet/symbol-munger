@@ -1,6 +1,6 @@
 = Symbol Munger = 
 
-A library to make it easy to change the capitalization and spacing of
+A Common Lisp library to make it easy to change the capitalization and spacing of
 a "sentance".  This is used for converting between space & capitization 
 rules of various systems.
 
