@@ -11,21 +11,18 @@ lisp to python style underscores, database column names to lisp-symbols etc)
 == API ==
 === normalize-capitalization-and-spacing ===
 
-    (s &key (capitalize :each-word) (word-separators #\space)
-       word-separators-to-replace stream in-place)
+(s &key (capitalize :each-word) (word-separators #\space)
+   word-separators-to-replace stream in-place)
 
-Will recapitalize a string and replace word-separators with a standard one
-(in-place if desired and possible)
+* Will recapitalize a string and replace word-separators with a standard one (in-place if desired and possible)
+* Will write to a stream if given it otherwise.
+* Defaults to capitalizing each word but can be any of
+** {:each-word :first-word T (:all is an alias for T) nil :but-first-word (likeJavaScript) }
 
-Will write to a stream if given it otherwise.
-Defaults to capitalizing each word but can be any of
-  {:each-word :first-word T (:all is an alias for T) nil :but-first-word (likeJavaScript) }
-
-word-separators are used to distinguish new words for the purposes of capitalization
-  The first of these will be used to replace word-separators-to-replace
-word-separators-to-replace helps normalize word separators so that spaces or underscores
-  become the appropriate word-separator.
-  If this eql :capitals it assumes capital letters indicate a new word separation
+* word-separators are used to distinguish new words for the purposes of capitalization
+** The first of these will be used to replace word-separators-to-replace
+* word-separators-to-replace helps normalize word separators so that spaces or underscores become the appropriate word-separator.
+** If this contains :capitals it assumes capital letters indicate a new word separation
 
 returns a string (new or the one passed in if in-place) unless :stream is provided"
 
@@ -33,14 +30,14 @@ returns a string (new or the one passed in if in-place) unless :stream is provid
 
 Converts a common lisp symbol (or symbol-name) into an english phrase
 
- :a-symbol-like-this becomes "A Symbol Like This"
+:a-symbol-like-this becomes "A Symbol Like This"
 
 === english->lisp-symbol & english->lisp-keyword ===
 
 Converts an english phrase into a common lisp symbol (the keyword 
 variant just specifies the keyword package)
 
- "A Symbol Like This" becomes :a-symbol-like-this
+"A Symbol Like This" becomes :a-symbol-like-this
 
 
 === Many other similar functions ===
