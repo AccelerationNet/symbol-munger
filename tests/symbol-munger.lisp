@@ -1,7 +1,7 @@
-(defpackage :string-normalizer-test
-  (:use :cl :cl-user :string-normalizer :lisp-unit))
+(defpackage :symbol-munger-test
+  (:use :cl :cl-user :symbol-munger :lisp-unit))
 
-(in-package :string-normalizer-test)
+(in-package :symbol-munger-test)
 
 (define-test test-basic
   (let ((it "tHis Is My teSt Phrase"))

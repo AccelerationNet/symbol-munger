@@ -1,27 +1,27 @@
 ;; -*- lisp -*-
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  (unless (find-package :string-normalizer.system)
-    (defpackage :string-normalizer.system
+  (unless (find-package :symbol-munger.system)
+    (defpackage :symbol-munger.system
 	(:use :common-lisp :asdf))))
 
-(in-package string-normalizer.system)
+(in-package symbol-munger.system)
 
-(defsystem :string-normalizer
+(defsystem :symbol-munger
   :description "Functions to pluralize and singularize english languages words"
   :licence "BSD"
   :version "0.1"
-  :components ((:file "string-normalizer"))
+  :components ((:file "symbol-munger"))
   :depends-on (:iter))
 
-(defsystem :string-normalizer-test
+(defsystem :symbol-munger-test
   :description "Functions to pluralize and singularize english languages words"
   :licence "BSD"
   :version "0.1"
   :components ((:module :tests
 			:serial t
-			:components ((:file "string-normalizer"))))
-  :depends-on (:string-normalizer :lisp-unit))
+			:components ((:file "symbol-munger"))))
+  :depends-on (:symbol-munger :lisp-unit))
 
 (defmethod asdf:perform ((o asdf:test-op) (c (eql (find-system :vana-inflector))))
   (asdf:oos 'asdf:load-op :vana-inflector-test))

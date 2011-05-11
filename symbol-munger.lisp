@@ -1,4 +1,4 @@
-(defpackage :string-normalizer
+(defpackage :symbol-munger
     (:use :cl :cl-user :iter)
   (:export :normalize-capitalization-and-spacing
 	   :english->lisp-symbol
@@ -27,7 +27,7 @@
 	   :underscores->studly-caps
 	   ))
 
-(in-package :string-normalizer)
+(in-package :symbol-munger)
 
 (defmacro ensure-list! (place)
   `(setf ,place (if (listp ,place) ,place (list ,place))))
