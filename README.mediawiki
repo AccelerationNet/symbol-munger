@@ -1,4 +1,4 @@
-= String Normalizer = 
+= Symbol Munger = 
 
 A library to make it easy to change the capitalization and spacing of
 a "sentance".  This is mostly used for converting between space &
