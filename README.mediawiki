@@ -1,12 +1,12 @@
 = Symbol Munger = 
 
 A library to make it easy to change the capitalization and spacing of
-a "sentance".  This is mostly used for converting between space &
-capitization rules of various systems.
+a "sentance".  This is used for converting between space & capitization 
+rules of various systems.
 
-This library is most useful where one needs to convert names between 
-various systems (eg lisp to english, lisp to javascript style camel-case,
-lisp to python style underscores, database column names to lisp-symbols etc)
+* Converts to and from lisp, english, underscores and camel-case
+** Useful for converting database column names to lisp-symbols and english column header names
+** Useful for converting between common lisp variables names and javascript variable names
 
 == API ==
 === normalize-capitalization-and-spacing ===
