@@ -41,6 +41,8 @@ variant just specifies the keyword package)
 
 === Many other similar functions ===
 
+[https://github.com/bobbysmith007/symbol-munger/blob/master/tests/symbol-munger.lisp See The Tests For Working Examples]
+
 * english->lisp-symbol
 * english->lisp-name
 * english->keyword

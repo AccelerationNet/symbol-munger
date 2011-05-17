@@ -20,6 +20,14 @@
     (assert-equal "This is a test" (camel-case->english "thisIsATest" :capitalize :first-word))
     (assert-equal "this-is-a-test" (camel-case->lisp-name "thisIsATest"))
     (assert-equal :this-is-a-test (camel-case->lisp-symbol "thisIsATest" :keyword))
+    (assert-equal "thisIsATest"
+		  (lisp->camel-case
+		   (camel-case->keyword "thisIsATest")))
+    (assert-equal "thisIsATest"
+		  (lisp->camel-case
+		   (camel-case->keyword
+		    (lisp->camel-case
+		     (camel-case->keyword "thisIsATest")))))
     (assert-equal :this-is-a-test (camel-case->keyword "thisIsATest"))
     (assert-equal "this_is_a_test" (camel-case->underscores "thisIsATest"))
     (assert-equal "this_is_a_test" (camel-case->underscores "ThisIsATest"))
