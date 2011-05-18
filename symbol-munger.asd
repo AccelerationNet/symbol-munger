@@ -8,14 +8,16 @@
 (in-package symbol-munger.system)
 
 (defsystem :symbol-munger
-  :description "Functions to pluralize and singularize english languages words"
+  :description "Functions to convert between the spacing and
+  capitalization conventions of various environments"
   :licence "BSD"
   :version "0.1"
   :components ((:file "symbol-munger"))
   :depends-on (:iterate))
 
 (defsystem :symbol-munger-test
-  :description "Functions to pluralize and singularize english languages words"
+  :description "Tests for Functions to convert between the spacing and
+  capitalization conventions of various environments"
   :licence "BSD"
   :version "0.1"
   :components ((:module :tests
