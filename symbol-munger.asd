@@ -23,8 +23,8 @@
 			:components ((:file "symbol-munger"))))
   :depends-on (:symbol-munger :lisp-unit))
 
-(defmethod asdf:perform ((o asdf:test-op) (c (eql (find-system :vana-inflector))))
-  (asdf:oos 'asdf:load-op :vana-inflector-test))
+(defmethod asdf:perform ((o asdf:test-op) (c (eql (find-system :symbol-munger))))
+  (asdf:oos 'asdf:load-op :symbol-munger-test))
 
 ;; Copyright (c) 2011 Russ Tyndall , Acceleration.net http://www.acceleration.net
 
