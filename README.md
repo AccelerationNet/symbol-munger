@@ -1,4 +1,4 @@
-= Symbol Munger = 
+# Symbol Munger
 
 A Common Lisp library to make it easy to change the capitalization and spacing of
 a "sentance".  This is used for converting between space & capitization 
@@ -8,8 +8,8 @@ rules of various systems.
 ** Useful for converting database column names to lisp-symbols and english column header names
 ** Useful for converting between common lisp variables names and javascript variable names
 
-== API ==
-=== normalize-capitalization-and-spacing ===
+## API
+### normalize-capitalization-and-spacing
 
 (s &key (capitalize :each-word) (word-separators #\space) word-separators-to-replace stream in-place)
 
@@ -25,13 +25,13 @@ rules of various systems.
 
 returns a string (new or the one passed in if in-place) unless :stream is provided"
 
-=== lisp->english ===
+### lisp->english
 
 Converts a common lisp symbol (or symbol-name) into an english phrase
 
 :a-symbol-like-this becomes "A Symbol Like This"
 
-=== english->lisp-symbol & english->keyword ===
+### english->lisp-symbol & english->keyword
 
 Converts an english phrase into a common lisp symbol (the keyword 
 variant just specifies the keyword package)
@@ -39,7 +39,7 @@ variant just specifies the keyword package)
 "A Symbol Like This" becomes :a-symbol-like-this
 
 
-=== Many other similar functions ===
+### Many other similar functions
 
 [https://github.com/bobbysmith007/symbol-munger/blob/master/tests/symbol-munger.lisp See The Tests For Working Examples]
 
@@ -67,3 +67,9 @@ variant just specifies the keyword package)
 * underscores->keyword
 * underscores->camel-case
 * underscores->studly-caps
+
+## Authors
+ * [Acceleration.net](http://www.acceleration.net/) [Donate](http://www.acceleration.net/programming/donate-to-acceleration-net/)
+  * [Russ Tyndall](http://russ.unwashedmeme.com/blog)
+  * [Nathan Bird](http://the.unwashedmeme.com/blog)
+  * [Ryan Davis](http://ryepup.unwashedmeme.com/blog)
