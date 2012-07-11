@@ -9,6 +9,7 @@
 	   :english->underscores
 
 	   :lisp->english
+	   :lisp->keyword
 	   :lisp->camel-case
 	   :lisp->underscores
 	   :lisp->studly-caps
@@ -148,6 +149,15 @@
    :stream stream :capitalize capitalize
    :word-separators word-separator
    :word-separators-to-replace (list #\-)))
+
+(defun lisp->keyword (phrase)
+  (intern
+   (normalize-capitalization-and-spacing
+    phrase
+    :capitalize T
+    :word-separators #\-
+    :word-separators-to-replace nil)
+   :keyword))
 
 (defun lisp->camel-case (phrase &key stream)
   (normalize-capitalization-and-spacing
