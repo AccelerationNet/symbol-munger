@@ -44,8 +44,18 @@
     
     (assert-equal "this_is_a_test" (lisp->underscores :this-is-a-test))
     (assert-equal "This Is A Test" (lisp->english :this-is-a-test))
+    (assert-equal :this-is-a-test (lisp->keyword 'this-is-a-test))
     (assert-equal "thisIsATest" (lisp->camel-case :this-is-a-test))
     (assert-equal "ThisIsATest" (lisp->studly-caps :this-is-a-test))
-
     
     ))
+
+(define-test test-list-type-args
+  (assert-equal :this-is-my-test-phrase
+                (symbol-munger:lisp->keyword (list 'this-is "my-test" 'phrase)))
+  (assert-equal "Test This Thing Being Tested"
+                (symbol-munger:lisp->english (list "test" "this-thing-being" "tested")))
+  (assert-equal :this-is-a-multispace-test-string
+   (english->keyword "this  is  a multispace   test string"))
+  (assert-equal :this-is-a-test-of-things
+   (symbol-munger:lisp->keyword (list "this" (list "is" "a" "Test") "of" 'things))))
