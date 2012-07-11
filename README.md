@@ -7,6 +7,8 @@ rules of various systems.
 * Converts to and from lisp, english, underscores and camel-case
  * Useful for converting database column names to lisp-symbols and english column header names
  * Useful for converting between common lisp variables names and javascript variable names
+ * Removes excess word separators along the way (:foo--bar => "Foo Bar")
+ * All conversion "->" functions accept strings symbols and lisp-trees of such
 
 ## API
 ### normalize-capitalization-and-spacing
