@@ -13,7 +13,7 @@
   :licence "BSD"
   :version "0.1"
   :components ((:file "symbol-munger"))
-  :depends-on (:iterate))
+  :depends-on (:iterate :alexandria))
 
 (defsystem :symbol-munger-test
   :description "Tests for Functions to convert between the spacing and
