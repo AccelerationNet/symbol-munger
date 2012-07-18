@@ -31,6 +31,15 @@
 
 (in-package :symbol-munger)
 
+(defmethod %coerce-to-string (s)
+  "This method can be specialized to help turn objects into
+   strings so they can be combined and normalized correctly"
+  (typecase s
+    (symbol (symbol-name s))
+    (string s)
+    (float (format nil "~F" s))
+    (t (princ-to-string s))))
+
 (defmacro ensure-list! (place)
   `(setf ,place (if (listp ,place) ,place (list ,place))))
 
@@ -39,6 +48,9 @@
        word-separators-to-replace stream in-place)
   "Will recapitalize a string and replace word-separators with a standard one
    (in-place if desired and possible)
+
+   If s is a lisp tree, then each part will be %coerce-to-string'ed and treated
+   as a separate part of the phrase being normalized
 
    Will write to a stream if given otherwise it.
    Defaults to capitalizing each word but can be any of
@@ -71,9 +83,7 @@
                     (setf just-wrote-separator? nil)
                     (write-char c str)))))
     (iter (for part in (alexandria:flatten s))
-      (for source-string = (etypecase part
-                             (symbol (symbol-name part))
-                             (string part)))
+      (for source-string = (%coerce-to-string part))
       (for start-of-phrase? = (first-iteration-p))
       (iter
         (for c in-string source-string)

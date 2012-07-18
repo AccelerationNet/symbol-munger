@@ -1,25 +1,31 @@
 # Symbol Munger
 
 A Common Lisp library to make it easy to change the capitalization and spacing of
-a "sentance".  This is used for converting between space & capitization 
+a "sentence".  This is used for converting between space & capitalization 
 rules of various systems.
 
 * Converts to and from lisp, english, underscores and camel-case
  * Useful for converting database column names to lisp-symbols and english column header names
  * Useful for converting between common lisp variables names and javascript variable names
  * Removes excess word separators along the way (:foo--bar => "Foo Bar")
- * All conversion "->" functions accept strings symbols and lisp-trees of such
+ * All conversion "->" functions accept lisp-trees of strings, symbols, and other lisp objects.
+  * all lisp objects (other than the tree structure which is flattened) are converted by 
+    symbol-munger::%coerce-to-string into strings.  
+  * Each object part is treated as a separate word
 
 ## API
 ### normalize-capitalization-and-spacing
 
-(s &key (capitalize :each-word) (word-separators #\space) word-separators-to-replace stream in-place)
-
-* Will recapitalize a string and replace word-separators with a standard one (in-place if desired and possible)
+(s &key (capitalize :each-word) (word-separators #\space) 
+        word-separators-to-replace stream in-place)
+* Will recapitalize a string and replace word-separators with a
+  standard one (in-place if desired and possible)
+* If s is a lisp tree, then each part will be %coerce-to-string'ed and
+  treated as a separate part of the phrase being normalized (ie: each
+  part implicitly starts a new word)
 * Will write to a stream if given it otherwise.
 * Defaults to capitalizing each word but can be any of
  * {:each-word :first-word T (:all is an alias for T) nil :but-first-word (likeJavaScript) }
-
 * word-separators are used to distinguish new words for the purposes of capitalization
  * The first of these will be used to replace word-separators-to-replace
 * word-separators-to-replace helps normalize word separators so that spaces or underscores become the appropriate word-separator.

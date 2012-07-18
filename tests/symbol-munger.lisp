@@ -58,4 +58,6 @@
   (assert-equal :this-is-a-multispace-test-string
    (english->keyword "this  is  a multispace   test string"))
   (assert-equal :this-is-a-test-of-things
-   (symbol-munger:lisp->keyword (list "this" (list "is" "a" "Test") "of" 'things))))
+   (symbol-munger:lisp->keyword (list "this" (list "is" "a" "Test") "of" 'things)))
+  (assert-equal :this-is-a-test-of-things-2
+   (symbol-munger:lisp->keyword (list "this" (list "is" "a" "Test") "of" 'things 2))))
