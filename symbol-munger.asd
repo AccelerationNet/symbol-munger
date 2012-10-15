@@ -28,7 +28,7 @@
 (defmethod asdf:perform ((o asdf:test-op) (c (eql (find-system :symbol-munger))))
   (asdf:oos 'asdf:load-op :symbol-munger-test)
   (let ((*package* (find-package :symbol-munger-test)))
-    (eval (read-from-string "(run-tests)"))))
+    (eval (read-from-string "(run-tests :all)"))))
 
 ;; Copyright (c) 2011 Russ Tyndall , Acceleration.net http://www.acceleration.net
 
