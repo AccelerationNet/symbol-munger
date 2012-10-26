@@ -69,61 +69,70 @@
     (error "in-place replacement is not available for word separators which take no space (such as :capitals)"))
   (ensure-list! word-separators)
   (ensure-list! word-separators-to-replace)
-  
+
   (let ((str (or stream (unless in-place
 			  (make-string-output-stream))))
-	(replacement-sep (first word-separators))
+	(replacement-sep (let ((it (first word-separators)))
+                           (typecase it
+                             (string (if (= 1 (length it))
+                                         (elt it 0)
+                                         it))
+                             (t it))))
         (just-wrote-separator? nil))
-    (flet ((write-c (c)
-             (cond ((eql c replacement-sep)
-                    (unless just-wrote-separator?
-                      (setf just-wrote-separator? t)
-                      (write-char c str)))
-                   (t
-                    (setf just-wrote-separator? nil)
-                    (write-char c str)))))
-    (iter (for part in (alexandria:flatten s))
-      (for source-string = (%coerce-to-string part))
-      (for start-of-phrase? = (first-iteration-p))
-      (iter
-        (for c in-string source-string)
-        (for last-c previous c)
-        (for i from 0)
-        (for is-cap? = (eql c (char-upcase c)))
-        (setf start-of-phrase? (and start-of-phrase? (first-iteration-p)))
-        (for start-of-word? =
-             (or (first-iteration-p)
-                 (and is-cap? (member :capitals word-separators-to-replace))
-                 (and is-cap? (member :capitals word-separators))
-                 ;; the last char we wrote was some kind of separator
-                 (member last-c word-separators-to-replace :test #'string-equal)
-                 (member last-c word-separators :test #'string-equal)))
+    (labels ((%write (c)
+               (etypecase c
+                 (character (write-char c str))
+                 (string (write-string c str))))
+             (write-c (c)
+               (cond ((string= c replacement-sep)
+                      (unless just-wrote-separator?
+                        (setf just-wrote-separator? t)
+                        (%write c)))
+                     (t
+                      (setf just-wrote-separator? nil)
+                      (%write c)))))
+      (iter (for part in (alexandria:flatten s))
+        (for source-string = (%coerce-to-string part))
+        (for start-of-phrase? = (first-iteration-p))
+        (iter
+          (for c in-string source-string)
+          (for last-c previous c)
+          (for i from 0)
+          (for is-cap? = (eql c (char-upcase c)))
+          (setf start-of-phrase? (and start-of-phrase? (first-iteration-p)))
+          (for start-of-word? =
+               (or (first-iteration-p)
+                   (and is-cap? (member :capitals word-separators-to-replace))
+                   (and is-cap? (member :capitals word-separators))
+                   ;; the last char we wrote was some kind of separator
+                   (member last-c word-separators-to-replace :test #'string-equal)
+                   (member last-c word-separators :test #'string-equal)))
 
-        ;; handle capital letters as word-separators
-        (when (and str ;; in-place will not work
-                   replacement-sep ;; need to have a separator
-                   (not start-of-phrase?) ;; dont start a string with a sep
-                   ;; put separators before new words
-                   start-of-word?)
-          (write-c replacement-sep))
+          ;; handle capital letters as word-separators
+          (when (and str ;; in-place will not work
+                     replacement-sep ;; need to have a separator
+                     (not start-of-phrase?) ;; dont start a string with a sep
+                     ;; put separators before new words
+                     start-of-word?)
+            (write-c replacement-sep))
 
-        (for should-cap? =
-             (or (eq capitalize :all)
-                 (eq capitalize T)
-                 (and start-of-word?
-                      (or (eq capitalize :each-word)
-                          (if (first-iteration-p)
-                              (eq capitalize :first-word)
-                              (eq capitalize :but-first-word))))))
+          (for should-cap? =
+               (or (eq capitalize :all)
+                   (eq capitalize T)
+                   (and start-of-word?
+                        (or (eq capitalize :each-word)
+                            (if (first-iteration-p)
+                                (eq capitalize :first-word)
+                                (eq capitalize :but-first-word))))))
 
-        (for char = (cond
-                      ((member c word-separators-to-replace :test #'string-equal)
-                       (or replacement-sep (next-iteration)))
-                      (should-cap? (char-upcase c))
-                      (T (char-downcase c))))
+          (for char = (cond
+                        ((member c word-separators-to-replace :test #'string-equal)
+                         (or replacement-sep (next-iteration)))
+                        (should-cap? (char-upcase c))
+                        (T (char-downcase c))))
 
-        (when in-place (setf (elt source-string i) char))
-        (when str (write-c char)))))
+          (when in-place (setf (elt source-string i) char))
+          (when str (write-c char)))))
     (cond ((not stream) (get-output-stream-string str))
 	  (in-place s))))
 
