@@ -1,9 +1,9 @@
 (defpackage :symbol-munger-test
-  (:use :cl :cl-user :symbol-munger :lisp-unit))
+  (:use :cl :cl-user :symbol-munger :lisp-unit2))
 
 (in-package :symbol-munger-test)
 
-(define-test test-basic
+(define-test test-basic ()
   (let ((it "tHis Is My teSt Phrase"))
     (assert-equal "This Is My Test Phrase"
 		  (normalize-capitalization-and-spacing it))
@@ -50,7 +50,7 @@
     
     ))
 
-(define-test test-list-type-args
+(define-test test-list-type-args ()
   (assert-equal :this-is-my-test-phrase
                 (symbol-munger:lisp->keyword (list 'this-is "my-test" 'phrase)))
   (assert-equal "Test This Thing Being Tested"

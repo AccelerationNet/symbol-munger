@@ -23,12 +23,15 @@
   :components ((:module :tests
 			:serial t
 			:components ((:file "symbol-munger"))))
-  :depends-on (:symbol-munger :lisp-unit))
+  :depends-on (:symbol-munger :lisp-unit2))
 
 (defmethod asdf:perform ((o asdf:test-op) (c (eql (find-system :symbol-munger))))
   (asdf:oos 'asdf:load-op :symbol-munger-test)
   (let ((*package* (find-package :symbol-munger-test)))
-    (eval (read-from-string "(run-tests :all)"))))
+    (eval (read-from-string "
+            (with-summary (:name :symbol-munger)
+             (run-tests :package :symbol-munger-test))
+      "))))
 
 ;; Copyright (c) 2011 Russ Tyndall , Acceleration.net http://www.acceleration.net
 
