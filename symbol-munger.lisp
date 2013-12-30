@@ -41,7 +41,10 @@
     (t (princ-to-string s))))
 
 (defmacro ensure-list! (place)
-  `(setf ,place (if (listp ,place) ,place (list ,place))))
+  `(setf ,place (alexandria:ensure-list ,place)))
+
+(defmacro ensure-flat-list! (place)
+  `(setf ,place (alexandria:flatten ,place)))
 
 (defun normalize-capitalization-and-spacing
     (s &key (capitalize :each-word) (word-separators #\space)
@@ -57,18 +60,19 @@
      {:each-word :first-word T (:all is an alias for T) nil :but-first-word (likeJavaScript) }
 
    word-separators are used to distinguish new words for the purposes of capitalization
-     The first of these will be used to replace word-separators-to-replace
+     The first of these will be used to replace word-separators-to-replace (auto flattened)
    word-separators-to-replace helps normalize word separators so that spaces or underscores
      become the appropriate word-separator.
      If this eql :capitals it assumes capital letters indicate a new word separation
+     (auto flattened)
 
    returns a string (new or the one passed in if in-place) unless :stream is provided"
   ;; Check and enforce our assumptions
   (ecase capitalize ((:each-word :first-word :but-first-word T :all nil) T))
   (when (and in-place (member :capitals word-separators-to-replace))
     (error "in-place replacement is not available for word separators which take no space (such as :capitals)"))
-  (ensure-list! word-separators)
-  (ensure-list! word-separators-to-replace)
+  (ensure-flat-list! word-separators)
+  (ensure-flat-list! word-separators-to-replace)
 
   (let ((str (or stream (unless in-place
 			  (make-string-output-stream))))
@@ -82,7 +86,8 @@
     (labels ((%write (c)
                (etypecase c
                  (character (write-char c str))
-                 (string (write-string c str))))
+                 (string (write-string c str))
+                 (symbol (write-string (symbol-name c) str))))
              (write-c (c)
                (cond ((string= c replacement-sep)
                       (unless just-wrote-separator?
@@ -184,14 +189,15 @@
    :word-separators-to-replace (list #\-)))
 
 (defun lisp->keyword (phrase)
-  (combine-symbols phrase :keyword))
+  (combine-symbols phrase :package :keyword))
 
-(defun combine-symbols (phrase &optional (package *package*))
+(defun combine-symbols (phrase &key (package *package*) separator)
   (intern
    (normalize-capitalization-and-spacing
     phrase
     :capitalize T
-    :word-separators #\-
+    ;; these are flattened so if nil it will just use #\-
+    :word-separators (list separator #\-)
     :word-separators-to-replace nil)
    package))
 
