@@ -191,13 +191,13 @@
 (defun lisp->keyword (phrase)
   (combine-symbols phrase :package :keyword))
 
-(defun combine-symbols (phrase &key (package *package*) separator)
+(defun combine-symbols (phrase &key (package *package*) (separator #\-))
   (intern
    (normalize-capitalization-and-spacing
     phrase
     :capitalize T
     ;; these are flattened so if nil it will just use #\-
-    :word-separators (list separator #\-)
+    :word-separators separator
     :word-separators-to-replace nil)
    package))
 
