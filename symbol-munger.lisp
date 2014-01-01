@@ -31,14 +31,15 @@
 
 (in-package :symbol-munger)
 
-(defmethod %coerce-to-string (s)
-  "This method can be specialized to help turn objects into
-   strings so they can be combined and normalized correctly"
-  (typecase s
-    (symbol (symbol-name s))
-    (string s)
-    (float (format nil "~F" s))
-    (t (princ-to-string s))))
+(defgeneric %coerce-to-string (s)
+  (:documentation "This method can be specialized to help turn objects into
+   strings so they can be combined and normalized correctly")
+  (:method (s)
+    (typecase s
+      (symbol (symbol-name s))
+      (string s)
+      (float (format nil "~F" s))
+      (t (princ-to-string s)))))
 
 (defmacro ensure-list! (place)
   `(setf ,place (alexandria:ensure-list ,place)))
