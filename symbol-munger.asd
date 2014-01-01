@@ -29,8 +29,9 @@
   (asdf:oos 'asdf:load-op :symbol-munger-test)
   (let ((*package* (find-package :symbol-munger-test)))
     (eval (read-from-string "
-            (with-summary (:name :symbol-munger)
-             (run-tests :package :symbol-munger-test))
+             (lisp-unit2:run-tests :package :symbol-munger-test
+               :name :symbol-munger
+               :run-contexts #'with-summary-context)
       "))))
 
 ;; Copyright (c) 2011 Russ Tyndall , Acceleration.net http://www.acceleration.net
