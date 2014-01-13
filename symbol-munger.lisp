@@ -14,6 +14,7 @@
 	   :lisp->underscores
 	   :lisp->studly-caps
            :combine-symbols
+           :reintern
 
 	   :camel-case->english
 	   :camel-case->lisp-name
@@ -191,6 +192,9 @@
 
 (defun lisp->keyword (phrase)
   (combine-symbols phrase :package :keyword))
+
+(defun reintern (phrase &optional (package *package*))
+  (combine-symbols phrase :package package))
 
 (defun combine-symbols (phrase &key (package *package*) (separator #\-))
   (intern
