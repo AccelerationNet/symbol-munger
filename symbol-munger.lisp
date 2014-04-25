@@ -194,17 +194,21 @@
   (combine-symbols phrase :package :keyword))
 
 (defun reintern (phrase &optional (package *package*))
-  (combine-symbols phrase :package package))
+  ;; never reintern nil
+  (when phrase
+    (combine-symbols phrase :package package)))
 
 (defun combine-symbols (phrase &key (package *package*) (separator #\-))
-  (intern
-   (normalize-capitalization-and-spacing
-    phrase
-    :capitalize T
-    ;; these are flattened so if nil it will just use #\-
-    :word-separators separator
-    :word-separators-to-replace nil)
-   package))
+  ;; never reintern nil
+  (when phrase
+    (intern
+     (normalize-capitalization-and-spacing
+      phrase
+      :capitalize T
+      ;; these are flattened so if nil it will just use #\-
+      :word-separators separator
+      :word-separators-to-replace nil)
+     package)))
 
 (defun lisp->camel-case (phrase &key stream)
   (normalize-capitalization-and-spacing
