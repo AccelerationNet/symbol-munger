@@ -15,6 +15,7 @@
 	   :lisp->studly-caps
            :combine-symbols
            :reintern
+           :qualified-symbol-string
 
 	   :camel-case->english
 	   :camel-case->lisp-name
@@ -47,6 +48,11 @@
 
 (defmacro ensure-flat-list! (place)
   `(setf ,place (alexandria:flatten ,place)))
+
+(defun qualified-symbol-string (sym)
+  (let ((*package* (find-package :keyword))
+        (*print-pretty* nil))
+    (format nil "~S" sym)))
 
 (defun normalize-capitalization-and-spacing
     (s &key (capitalize :each-word) (word-separators #\space)
