@@ -1,38 +1,29 @@
 ;; -*- lisp -*-
 
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (unless (find-package :symbol-munger.system)
-    (defpackage :symbol-munger.system
-	(:use :common-lisp :asdf))))
-
-(in-package symbol-munger.system)
-
-(defsystem :symbol-munger
+(defsystem "symbol-munger"
   :description "Functions to convert between the spacing and
   capitalization conventions of various environments"
-  :licence "BSD"
+  :license "MIT"
   :version "0.1"
   :components ((:file "symbol-munger"))
-  :depends-on (:iterate :alexandria))
+  :depends-on ("iterate" "alexandria")
+  :in-order-to ((test-op (load-op "symbol-munger/test")))
+  :perform (test-op (op c)
+             (let ((*package* (find-package :symbol-munger-test)))
+               (eval (read-from-string "
+                 (run-tests :package :symbol-munger-test
+                   :name :symbol-munger
+                   :run-contexts #'with-summary-context)")))))
 
-(defsystem :symbol-munger-test
+(defsystem "symbol-munger/test"
   :description "Tests for Functions to convert between the spacing and
   capitalization conventions of various environments"
-  :licence "BSD"
+  :license "MIT"
   :version "0.1"
   :components ((:module :tests
-			:serial t
-			:components ((:file "symbol-munger"))))
-  :depends-on (:symbol-munger :lisp-unit2))
-
-(defmethod asdf:perform ((o asdf:test-op) (c (eql (find-system :symbol-munger))))
-  (asdf:oos 'asdf:load-op :symbol-munger-test)
-  (let ((*package* (find-package :symbol-munger-test)))
-    (eval (read-from-string "
-             (lisp-unit2:run-tests :package :symbol-munger-test
-               :name :symbol-munger
-               :run-contexts #'with-summary-context)
-      "))))
+                :serial t
+                :components ((:file "symbol-munger"))))
+  :depends-on ("symbol-munger" "lisp-unit2"))
 
 ;; Copyright (c) 2011 Russ Tyndall , Acceleration.net http://www.acceleration.net
 
