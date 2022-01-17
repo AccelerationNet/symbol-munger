@@ -4,7 +4,7 @@
   :description "Functions to convert between the spacing and
   capitalization conventions of various environments"
   :license "MIT"
-  :version "0.1"
+  :version "1.0"
   :components ((:file "symbol-munger"))
   :depends-on ("iterate" "alexandria")
   :in-order-to ((test-op (load-op "symbol-munger/test")))
@@ -19,7 +19,7 @@
   :description "Tests for Functions to convert between the spacing and
   capitalization conventions of various environments"
   :license "MIT"
-  :version "0.1"
+  :version "1.0"
   :components ((:module :tests
                 :serial t
                 :components ((:file "symbol-munger"))))
